@@ -1,1 +1,51 @@
 
+<div class="container">
+  <h1>Todo List</h1>
+  
+  <%= link_to "Add New Todo", new_todo_path, class: "btn btn-primary" %>
+  
+  <div class="todos-section">
+    <h2>Incomplete Todos</h2>
+    <% if @incomplete_todos.any? %>
+      <ul class="todo-list">
+        <% @incomplete_todos.each do |todo| %>
+          <li class="todo-item incomplete">
+            <div class="todo-content">
+              <h3><%= todo.title %></h3>
+              <p><%= todo.description %></p>
+              <div class="todo-actions">
+                <%= link_to "Edit", edit_todo_path(todo), class: "btn btn-sm" %>
+                <%= link_to "Delete", todo_path(todo), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+                <%= button_to "Complete", toggle_todo_path(todo), method: :patch, class: "btn btn-sm btn-success" %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No incomplete todos. Great job!</p>
+    <% end %>
+  </div>
+  
+  <div class="todos-section">
+    <h2>Completed Todos</h2>
+    <% if @completed_todos.any? %>
+      <ul class="todo-list">
+        <% @completed_todos.each do |todo| %>
+          <li class="todo-item completed">
+            <div class="todo-content">
+              <h3><%= todo.title %></h3>
+              <p><%= todo.description %></p>
+              <div class="todo-actions">
+                <%= button_to "Undo", toggle_todo_path(todo), method: :patch, class: "btn btn-sm btn-warning" %>
+                <%= link_to "Delete", todo_path(todo), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No completed todos yet.</p>
+    <% end %>
+  </div>
+</div>
